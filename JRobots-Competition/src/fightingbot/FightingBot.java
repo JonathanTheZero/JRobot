@@ -1,6 +1,7 @@
 package fightingbot;
 
 import jrobots.utils.*;
+import jrobots.*;
 import jrobots.simulation.simulationObjects.JRobot2015_2;
 
 /** A minimal functional Bot, ready for being programmed. 
