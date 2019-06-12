@@ -1,4 +1,7 @@
 import jrobots.utils.*;
+
+import java.awt.Color;
+
 import jrobots.*;
 import jrobots.simulation.simulationObjects.JRobot2015_2;
 import jrobots.simulation.simulationObjects.Pilot;
@@ -13,13 +16,15 @@ public class EmptyBot extends JRobot2015_2 {
 	private static final long serialVersionUID = 1L;
 
 	@Override
+	protected void init() {
+		setNameColor(Color.BLUE);
+		setBodyColor(Color.MAGENTA);
+	}
+	
+	
 	protected void actions() {
 		// TODO implement brain
-		new Pilot();
-		while(true) {
-			Angle angle1 = Angle.EAST;
-			new Scan(Angle.EAST, Angle.NORTH, 2.0, new Vector(3, 3), 3.0);
-		}
+		setLaunchProjectileCommand(Angle.EAST, 200);
 	}
 
 }
