@@ -25,7 +25,30 @@ public class EmptyBot extends JRobot2015_2 {
 	
 	protected void actions() {
 		// TODO implement brain
-		setLaunchProjectileCommand(Angle.EAST, 200);
+		/*double d = Math.random() * 4.1;
+		if(d < 1){
+			setAutopilot(Angle.NORTH, getMaxForwardVelocity());
+		}
+		else if(d < 2 && d > 1){
+			setAutopilot(Angle.EAST, getMaxForwardVelocity());
+		}
+		else if(d < 3 && d > 2){
+			setAutopilot(Angle.SOUTH, getMaxForwardVelocity());
+		}
+		else{
+			setAutopilot(Angle.WEST, getMaxForwardVelocity());
+		}*/
+		setAutopilot(Angle.WEST, getMaxForwardVelocity());
+		
+		if(getVelocity().getLength() == getMaxForwardVelocity()){
+			setLaunchProjectileCommand(Angle.EAST, 200);
+		}
+		//scan();
+		
+	}
+	
+	protected void scan(){
+		setSonarEnergy(0.01);
 	}
 
 }
