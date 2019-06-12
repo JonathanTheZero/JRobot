@@ -18,7 +18,8 @@ public class EmptyBot extends JRobot2015_2 {
 	@Override
 	protected void init() {
 		setNameColor(Color.BLUE);
-		setBodyColor(Color.MAGENTA);
+		setBodyColor(Color.LIGHT_GRAY);
+		setTurretColor(Color.RED);
 	}
 	
 	
