@@ -14,6 +14,8 @@ import jrobots.simulation.simulationObjects.launchables.Bullet;
  */
 public class NichtEmptyBot extends JRobot2011 {
 	private static final long serialVersionUID = 1L;
+	int distance, angle = 0;
+	Angle angle1 = new Angle(0.00, "Degrees");
 
 	@Override
 	protected void init() {
@@ -25,39 +27,64 @@ public class NichtEmptyBot extends JRobot2011 {
 	
 	protected void actions() {
 		// TODO implement brain
-		scan();
-		setAutopilot(Angle.NORTH, getMaxForwardVelocity());
-		if(getEnergy() >= getEnergyConsumptionProjectile()) {
+		/*setScanAperture(getMaxScanAperture());
+		setScanDirection(Angle.NORTH);
+		boolean found = false;
+		if(!getLastScan().isTargetLocated()) {
+			setScanDirection(Angle.EAST);
+			
+			if(!getLastScan().isTargetLocated()) {
+				setScanDirection(Angle.SOUTH);
+				
+				if(!getLastScan().isTargetLocated()) {
+					
+					setScanDirection(Angle.WEST);
+				}
+				else {
+					found = true;
+				}
+			}
+			else {
+				found = true;
+			}
 		}
+		else {
+			found = true;
+		}
+		if(found) {
+			setAutopilot(getLastScan().scanDirection, getMaxForwardVelocity());
+			if(getEnergy() >= getEnergyConsumptionProjectile()) {
+				setLaunchProjectileCommand(getLastScan().scanDirection);
+			}
+		}*/	
+		setScanAperture(getMaxScanAperture());
+		setScanDirection(angle1);
+		while(getLastScan().distanceToTarget == 0) {
+			angle++;
+			angle1 = new Angle(angle, "Degrees");
+		}
+		setLaunchProjectileCommand(angle1);
+		setAutopilot(angle1, getMaxForwardVelocity());
 		//scan();
 		
 	}
 	
-	protected Scan scan(){
+	protected void scan(){
 		setScanAperture(getMaxScanAperture());
 		setScanDirection(Angle.NORTH);
-		if(getLastScan().isTargetLocated()) {
-			return getLastScan();
-		}
-		else {
+		if(!getLastScan().isTargetLocated()) {
 			setScanDirection(Angle.EAST);
-			if(getLastScan().isTargetLocated()) {
-				return getLastScan();
-			}
-			else {
+			
+			if(!getLastScan().isTargetLocated()) {
 				setScanDirection(Angle.SOUTH);
-				if(getLastScan().isTargetLocated()) {
-					return getLastScan();
-				}
-				else {
+				
+				if(!getLastScan().isTargetLocated()) {
+					
 					setScanDirection(Angle.WEST);
-					if(getLastScan().isTargetLocated()) {
-						return getLastScan();
-					}
 				}
 			}
 		}
-		return null;
+		setAutopilot(getLastScan().scanDirection, getMaxForwardVelocity());
 	}
 	
 	public Angle scanDirection() {
