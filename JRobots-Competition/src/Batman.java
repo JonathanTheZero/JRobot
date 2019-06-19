@@ -14,10 +14,9 @@ import jrobots.simulation.simulationObjects.launchables.Bullet;
  */
 public class Batman extends JRobot2011 {
 	private static final long serialVersionUID = 1L;
-	int distance, angle = 0;
-	Angle angle1 = new Angle(0.00, "Degrees");
 	boolean angleFound = false;
 	Angle a = Angle.NORTH;
+	int i = 0;
 
 	@Override
 	protected void init() {
@@ -61,21 +60,31 @@ public class Batman extends JRobot2011 {
 			}
 		}*/
 		if(angleFound) {
-			setAutopilot(getLastScan().scanDirection, 100);
+			Angle f = new Angle(getLastScan().scanDirection.getValueAsDegrees(), "Degrees");
+			setAutopilot(f, getMaxForwardVelocity());
+			setLaunchProjectileCommand(f);
+			i++;
+			if(i == 2) {
+				i = 0;
+				angleFound = false;
+			}
 		}
 		else {
 			setScanAperture(getMaxScanAperture());
 			setScanDirection(a);
 			if(getLastScan().isTargetLocated()) {
 				setScanAperture(new Angle(45, "Degrees"));
-				setScanDirection(new Angle(a.getValueAsDegrees() + 22.5, "Degrees"));
+				
+				setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 22.5, "Degrees"));
 				if(!getLastScan().isTargetLocated()) {
-					setScanDirection(new Angle(a.getValueAsDegrees() - 22.5, "Degrees"));
+					setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 22.5, "Degrees"));
+					
 					if(getLastScan().isTargetLocated()) {
 						setScanAperture(new Angle(45/2, "Degrees"));
 						setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 10.25, "Degrees"));
+						
 						if(!getLastScan().isTargetLocated()) {
-							setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 10-25, "Degrees"));
+							setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 22.5, "Degrees"));
 							angleFound = true;
 							return;
 						}
@@ -86,14 +95,12 @@ public class Batman extends JRobot2011 {
 					}
 				}
 				else {
-					if(getLastScan().isTargetLocated()) {
-						setScanAperture(new Angle(45/2, "Degrees"));
-						setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 10.25, "Degrees"));
-						if(!getLastScan().isTargetLocated()) {
-							setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 10-25, "Degrees"));
-							angleFound = true;
-							return;
-						}
+					setScanAperture(new Angle(45/2, "Degrees"));
+					setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 10.25, "Degrees"));
+					if(!getLastScan().isTargetLocated()) {
+						setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 22.5, "Degrees"));
+						angleFound = true;
+						return;
 					}
 					else {
 						angleFound = true;
@@ -102,14 +109,27 @@ public class Batman extends JRobot2011 {
 				}
 			}
 			else {
-				a.add(new Angle(90, "Degrees"));
+				a = new Angle(a.getValueAsDegrees() + 90, "Degrees");
 			}
 		}
-		//scanAt(Angle.NORTH);
-		scanVoid(Angle.NORTH);
-		//scan();
 		
 	}
+//	else {
+//		setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 10.25, "Degrees"));
+//		if(!getLastScan().isTargetLocated()) {
+//			setScanAperture(new Angle(10.25, "Degrees"));
+//			setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 5.125, "Degrees"));
+//			if(getLastScan().isTargetLocated()) {
+//				angleFound = true;
+//				return;
+//			}
+//			else {
+//				setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 10.25, "Degrees"));
+//				angleFound = true;
+//				return;
+//			}
+//		}
+//	}
 	
 	protected void scanVoid(Angle a) {
 		while(!angleFound) {
@@ -121,7 +141,7 @@ public class Batman extends JRobot2011 {
 				if(!getLastScan().isTargetLocated()) {
 					setScanDirection(new Angle(a.getValueAsDegrees() - 22.5, "Degrees"));
 					if(getLastScan().isTargetLocated()) {
-						setScanAperture(new Angle(45/2, "Degrees"));
+						setScanAperture(new Angle(22.5, "Degrees"));
 						setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 10.25, "Degrees"));
 						if(!getLastScan().isTargetLocated()) {
 							setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 10-25, "Degrees"));
@@ -136,7 +156,7 @@ public class Batman extends JRobot2011 {
 				}
 				else {
 					if(getLastScan().isTargetLocated()) {
-						setScanAperture(new Angle(45/2, "Degrees"));
+						setScanAperture(new Angle(22.5, "Degrees"));
 						setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 10.25, "Degrees"));
 						if(!getLastScan().isTargetLocated()) {
 							setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 10-25, "Degrees"));
