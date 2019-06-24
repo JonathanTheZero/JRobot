@@ -60,9 +60,18 @@ public class Batman extends JRobot2011 {
 			}
 		}*/
 		if(angleFound) {
-			Angle f = new Angle(getLastScan().scanDirection.getValueAsDegrees(), "Degrees");
-			setAutopilot(f, getMaxForwardVelocity());
-			setLaunchProjectileCommand(f);
+			Angle f = getLastScan().scanDirection;
+			if(getLastScan().distanceToTarget <= 7){
+				setAutopilot(f, getMaxForwardVelocity()/5);
+			}
+			else {
+				setAutopilot(f, getMaxForwardVelocity());
+			}
+			
+			if(getEnergyConsumptionProjectile() <= getEnergy()){
+				setLaunchProjectileCommand(f);
+			}
+			
 			i++;
 			if(i == 2) {
 				i = 0;
@@ -76,35 +85,149 @@ public class Batman extends JRobot2011 {
 				setScanAperture(new Angle(45, "Degrees"));
 				
 				setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 22.5, "Degrees"));
-				if(!getLastScan().isTargetLocated()) {
-					setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 22.5, "Degrees"));
+				if(getLastScan().isTargetLocated()) {
+					setScanAperture(new Angle(45/2, "Degrees"));
+					setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 10.25, "Degrees"));
 					
-					if(getLastScan().isTargetLocated()) {
-						setScanAperture(new Angle(45/2, "Degrees"));
-						setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 10.25, "Degrees"));
-						
-						if(!getLastScan().isTargetLocated()) {
-							setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 22.5, "Degrees"));
-							angleFound = true;
-							return;
+					if(getLastScan().isTargetLocated()){
+						setScanAperture(new Angle(45/4, "Degrees"));
+						setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 5.125, "Degrees"));
+						if(getLastScan().isTargetLocated()){
+							setScanAperture(new Angle(45/8, "Degrees"));
+							setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 5.125/2, "Degrees"));
+							if(getLastScan().isTargetLocated()){
+								angleFound = true;
+								return;
+							}
+							else{
+								setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125, "Degrees"));
+								angleFound = true;
+								return;
+							}
 						}
 						else {
-							angleFound = true;
-							return;
+							setScanAperture(new Angle(45/8, "Degrees"));
+							setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125/2, "Degrees"));
+							if(getLastScan().isTargetLocated()){
+								angleFound = true;
+								return;
+							}
+							else{
+								setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125, "Degrees"));
+								angleFound = true;
+								return;
+							}
+						}
+					}
+					else {
+						setScanAperture(new Angle(45/2, "Degrees"));
+						setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 10.25, "Degrees"));
+						
+						if(getLastScan().isTargetLocated()){
+							setScanAperture(new Angle(45/4, "Degrees"));
+							setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 5.125, "Degrees"));
+							if(getLastScan().isTargetLocated()){
+								setScanAperture(new Angle(45/8, "Degrees"));
+								setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 5.125/2, "Degrees"));
+								if(getLastScan().isTargetLocated()){
+									angleFound = true;
+									return;
+								}
+								else{
+									setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125, "Degrees"));
+									angleFound = true;
+									return;
+								}
+							}
+							else {
+								setScanAperture(new Angle(45/8, "Degrees"));
+								setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125/2, "Degrees"));
+								if(getLastScan().isTargetLocated()){
+									angleFound = true;
+									return;
+								}
+								else{
+									setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125, "Degrees"));
+									angleFound = true;
+									return;
+								}
+							}
 						}
 					}
 				}
 				else {
-					setScanAperture(new Angle(45/2, "Degrees"));
-					setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 10.25, "Degrees"));
-					if(!getLastScan().isTargetLocated()) {
-						setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 22.5, "Degrees"));
-						angleFound = true;
-						return;
-					}
-					else {
-						angleFound = true;
-						return;
+					setScanAperture(new Angle(45, "Degrees"));
+					
+					setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 22.5, "Degrees"));
+					if(getLastScan().isTargetLocated()) {
+						setScanAperture(new Angle(45/2, "Degrees"));
+						setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 10.25, "Degrees"));
+						
+						if(getLastScan().isTargetLocated()){
+							setScanAperture(new Angle(45/4, "Degrees"));
+							setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 5.125, "Degrees"));
+							if(getLastScan().isTargetLocated()){
+								setScanAperture(new Angle(45/8, "Degrees"));
+								setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 5.125/2, "Degrees"));
+								if(getLastScan().isTargetLocated()){
+									angleFound = true;
+									return;
+								}
+								else{
+									setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125, "Degrees"));
+									angleFound = true;
+									return;
+								}
+							}
+							else {
+								setScanAperture(new Angle(45/8, "Degrees"));
+								setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125/2, "Degrees"));
+								if(getLastScan().isTargetLocated()){
+									angleFound = true;
+									return;
+								}
+								else{
+									setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125, "Degrees"));
+									angleFound = true;
+									return;
+								}
+							}
+						}
+						else {
+							setScanAperture(new Angle(45/2, "Degrees"));
+							setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 10.25, "Degrees"));
+							
+							if(getLastScan().isTargetLocated()){
+								setScanAperture(new Angle(45/4, "Degrees"));
+								setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 5.125, "Degrees"));
+								if(getLastScan().isTargetLocated()){
+									setScanAperture(new Angle(45/8, "Degrees"));
+									setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 5.125/2, "Degrees"));
+									if(getLastScan().isTargetLocated()){
+										angleFound = true;
+										return;
+									}
+									else{
+										setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125, "Degrees"));
+										angleFound = true;
+										return;
+									}
+								}
+								else {
+									setScanAperture(new Angle(45/8, "Degrees"));
+									setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125/2, "Degrees"));
+									if(getLastScan().isTargetLocated()){
+										angleFound = true;
+										return;
+									}
+									else{
+										setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125, "Degrees"));
+										angleFound = true;
+										return;
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -129,6 +252,20 @@ public class Batman extends JRobot2011 {
 //				return;
 //			}
 //		}
+//	}
+	
+//	setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 22.5, "Degrees"));
+//	if(getLastScan().isTargetLocated()){
+//		setScanAperture(new Angle(45/4, "Degrees"));
+//		setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 10.25 + 10.25/2, "Degrees"));
+//		angleFound = true;
+//		return;
+//	}
+//	else {
+//		setScanAperture(new Angle(45/4, "Degrees"));
+//		setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 10.25 - 10.25/2, "Degrees"));
+//		angleFound = true;
+//		return;
 //	}
 	
 	protected void scanVoid(Angle a) {
