@@ -14,9 +14,10 @@ import jrobots.simulation.simulationObjects.launchables.Bullet;
  */
 public class Batman extends JRobot2011 {
 	private static final long serialVersionUID = 1L;
-	boolean angleFound = false;
+	boolean angleFound, shouldFire = false;
 	Angle a = Angle.NORTH;
 	int i = 0;
+	int howManyRounds = 2;
 
 	@Override
 	protected void init() {
@@ -61,19 +62,41 @@ public class Batman extends JRobot2011 {
 		}*/
 		if(angleFound) {
 			Angle f = getLastScan().scanDirection;
-			if(getLastScan().distanceToTarget <= 7){
-				setAutopilot(f, getMaxForwardVelocity()/5);
-			}
-			else {
-				setAutopilot(f, getMaxForwardVelocity());
-			}
+//			if(getLastScan().distanceToTarget <= 0.5){
+////				if(getLastScan().distanceToTarget <= 0.1){
+////					setAutopilot(f, 0);
+////				}
+////				else {
+//					setAutopilot(f, getMaxForwardVelocity()/5);
+////				}
+//
+//				shouldFire = true;
+////				howManyRounds = 1;
+//			}
+//			else {
+//				setAutopilot(f, getMaxForwardVelocity());
+//				if(getLastScan().distanceToTarget >= 10){
+//					setBoost();
+//				}
+//			}
 			
-			if(getEnergyConsumptionProjectile() <= getEnergy()){
+			setAutopilot(f, getMaxForwardVelocity());
+			
+			if(getEnergyConsumptionProjectile() <= getEnergy() && shouldFire){
 				setLaunchProjectileCommand(f);
 			}
 			
+			if(getHealth() <= 0.20){
+				setAutopilot(new Angle(f.getValueAsDegrees() + 180, "Degrees"), getMaxForwardVelocity());
+			}
+			
+			
 			i++;
-			if(i == 2) {
+			if(i == howManyRounds) {
+//				defines after how many rounds the scan procedure should be redone
+//				doing it more often costs more energy but is more precise
+				shouldFire = false;
+				howManyRounds = 2;
 				i = 0;
 				angleFound = false;
 			}
