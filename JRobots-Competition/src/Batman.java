@@ -32,6 +32,7 @@ public class Batman extends JRobot2011 {
 		// TODO implement brain
 		if(angleFound) {
 			Angle f = getLastScan().scanDirection;
+			System.out.println(f);
 			setAutopilot(f, getMaxForwardVelocity());
 			setLaunchProjectileCommand(f);
 ////			checking health
@@ -83,7 +84,7 @@ public class Batman extends JRobot2011 {
 				shouldFire = false;
 				howManyRounds = 2;
 				i = 0;
-				//angleFound = false;
+				angleFound = false;
 				a = Angle.NORTH;
 			}
 		}
