@@ -18,6 +18,7 @@ public class Batman extends JRobot2011 {
 	Angle a = Angle.NORTH;
 	int i = 0;
 	int howManyRounds = 2;
+	boolean firstRound = false;
 
 	@Override
 	protected void init() {
@@ -29,10 +30,12 @@ public class Batman extends JRobot2011 {
 	
 	
 	protected void actions() {
+		setScanDirection(new Angle(33, "Degrees"));
+		System.out.println(getLastScan().scanDirection);
 		// TODO implement brain
 		if(angleFound) {
 			Angle f = getLastScan().scanDirection;
-			System.out.println(f);
+			//System.out.println(f);
 			setAutopilot(f, getMaxForwardVelocity());
 			setLaunchProjectileCommand(f);
 ////			checking health
@@ -89,6 +92,12 @@ public class Batman extends JRobot2011 {
 			}
 		}
 		else {
+//			if(i < 10 && firstRound){
+//				i++;
+//				return;
+//			}
+//			firstRound = false;
+//			i = 0;
 			setScanAperture(getMaxScanAperture());
 			setScanDirection(a);
 			System.out.println("0" + getLastScan().scanDirection.getValueAsDegrees());
