@@ -30,75 +30,61 @@ public class Batman extends JRobot2011 {
 	
 	protected void actions() {
 		// TODO implement brain
-		/*setScanAperture(getMaxScanAperture());
-		setScanDirection(Angle.NORTH);
-		boolean found = false;
-		if(!getLastScan().isTargetLocated()) {
-			setScanDirection(Angle.EAST);
-			
-			if(!getLastScan().isTargetLocated()) {
-				setScanDirection(Angle.SOUTH);
-				
-				if(!getLastScan().isTargetLocated()) {
-					
-					setScanDirection(Angle.WEST);
-				}
-				else {
-					found = true;
-				}
-			}
-			else {
-				found = true;
-			}
-		}
-		else {
-			found = true;
-		}
-		if(found) {
-			setAutopilot(getLastScan().scanDirection, getMaxForwardVelocity());
-			if(getEnergy() >= getEnergyConsumptionProjectile()) {
-				setLaunchProjectileCommand(getLastScan().scanDirection);
-			}
-		}*/
 		if(angleFound) {
 			Angle f = getLastScan().scanDirection;
-//			if(getLastScan().distanceToTarget <= 0.5){
-////				if(getLastScan().distanceToTarget <= 0.1){
-////					setAutopilot(f, 0);
-////				}
-////				else {
-//					setAutopilot(f, getMaxForwardVelocity()/5);
-////				}
+			setAutopilot(f, getMaxForwardVelocity());
+			setLaunchProjectileCommand(f);
+////			checking health
+//			if(getHealth() <= 0.2){
+//				setAutopilot(new Angle(f.getValueAsDegrees() + 180, "Degrees"), getMaxForwardVelocity());
+//				if(getEnergyConsumptionMine() <= getEnergy()) {
+//					setDropMineCommand(true);
+//					howManyRounds = 10;
+//				}
 //
-//				shouldFire = true;
-////				howManyRounds = 1;
 //			}
 //			else {
-//				setAutopilot(f, getMaxForwardVelocity());
-//				if(getLastScan().distanceToTarget >= 10){
-//					setBoost();
-//				}
+//				
 //			}
-			
-			setAutopilot(f, getMaxForwardVelocity());
-			
-			if(getEnergyConsumptionProjectile() <= getEnergy() && shouldFire){
-				setLaunchProjectileCommand(f);
-			}
-			
-			if(getHealth() <= 0.20){
-				setAutopilot(new Angle(f.getValueAsDegrees() + 180, "Degrees"), getMaxForwardVelocity());
-			}
-			
-			
+//			
+////			sw distance to target
+//			if(getLastScan().distanceToTarget <= 3 && getLastScan().distanceToTarget != 0){
+//				if(getLastScan().distanceToTarget <= 0.1){
+//					setAutopilot(f, 0);
+//				}
+//				else {
+//					setAutopilot(f, getMaxForwardVelocity()/5);
+//				}
+//				shouldFire = true;
+//				howManyRounds = 1;
+//			}
+//			else{
+//				setAutopilot(f, getMaxForwardVelocity());
+//			}
+//			shouldFire = true;
+//			
+////			checking if projectile should be launched
+//			if(getEnergyConsumptionProjectile() <= getEnergy() && shouldFire){
+//				setLaunchProjectileCommand(f);
+////				setScanAperture(new Angle(45/8, "Degrees"));
+////				setScanDirection(f);
+////				if(getLastScan().isTargetLocated()) {
+////					if(getEnergyConsumptionProjectile() <= getEnergy() && shouldFire){
+////						setLaunchProjectileCommand(f);
+////					}
+////				}
+//			}
+				
+//			Round reset
 			i++;
-			if(i == howManyRounds) {
+			if(i >= howManyRounds) {
 //				defines after how many rounds the scan procedure should be redone
 //				doing it more often costs more energy but is more precise
 				shouldFire = false;
 				howManyRounds = 2;
 				i = 0;
 				angleFound = false;
+				a = Angle.NORTH;
 			}
 		}
 		else {
@@ -130,7 +116,7 @@ public class Batman extends JRobot2011 {
 						}
 						else {
 							setScanAperture(new Angle(45/8, "Degrees"));
-							setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125/2, "Degrees"));
+							setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 5.125/2, "Degrees"));
 							if(getLastScan().isTargetLocated()){
 								angleFound = true;
 								return;
@@ -164,7 +150,7 @@ public class Batman extends JRobot2011 {
 							}
 							else {
 								setScanAperture(new Angle(45/8, "Degrees"));
-								setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125/2, "Degrees"));
+								setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 5.125/2, "Degrees"));
 								if(getLastScan().isTargetLocated()){
 									angleFound = true;
 									return;
@@ -204,7 +190,7 @@ public class Batman extends JRobot2011 {
 							}
 							else {
 								setScanAperture(new Angle(45/8, "Degrees"));
-								setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125/2, "Degrees"));
+								setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 5.125/2, "Degrees"));
 								if(getLastScan().isTargetLocated()){
 									angleFound = true;
 									return;
@@ -238,7 +224,7 @@ public class Batman extends JRobot2011 {
 								}
 								else {
 									setScanAperture(new Angle(45/8, "Degrees"));
-									setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() - 5.125/2, "Degrees"));
+									setScanDirection(new Angle(getLastScan().scanDirection.getValueAsDegrees() + 5.125/2, "Degrees"));
 									if(getLastScan().isTargetLocated()){
 										angleFound = true;
 										return;
@@ -256,6 +242,7 @@ public class Batman extends JRobot2011 {
 			}
 			else {
 				a = new Angle(a.getValueAsDegrees() + 90, "Degrees");
+				angleFound = false;
 			}
 		}
 		
