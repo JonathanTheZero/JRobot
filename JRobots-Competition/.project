@@ -3,6 +3,7 @@
 	<name>JRobots-Competition</name>
 	<comment></comment>
 	<projects>
+		<project>JRobot</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
