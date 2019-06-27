@@ -102,6 +102,7 @@ public class Batman extends JRobot2011 {
 			setScanAperture(getMaxScanAperture());
 			setScanDirection(a);
 			lastScan=a;
+			double save = a.getValueAsDegrees();
 			System.out.println("0" + getLastScan().scanDirection.getValueAsDegrees());
 			if(getLastScan().isTargetLocated()) {
 				setScanAperture(new Angle(45, "Degrees"));
@@ -303,7 +304,7 @@ public class Batman extends JRobot2011 {
 					}
 			
 			else {
-				a = new Angle(a.getValueAsDegrees() + 90, "Degrees");
+				a = new Angle(save + 90, "Degrees");
 				angleFound = false;
 			}
 				}
