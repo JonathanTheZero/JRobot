@@ -2,6 +2,8 @@ import jrobots.utils.*;
 
 import java.awt.Color;
 
+import com.sun.xml.internal.ws.api.pipe.NextAction;
+
 import jrobots.*;
 import jrobots.simulation.simulationObjects.JRobot2011;
 import jrobots.simulation.simulationObjects.Pilot;
@@ -19,7 +21,7 @@ public class Batman extends JRobot2011 {
 	int i = 0;
 	int howManyRounds = 2;
 	boolean firstRound = false;
-	Angle lastScan = Angle.NORTH;
+	Angle lastScan;
 
 	@Override
 	protected void init() {
@@ -37,8 +39,10 @@ public class Batman extends JRobot2011 {
 		if(angleFound) {
 //			Angle f = lastScan;
 			//System.out.println(f);
-			setAutopilot(lastScan, getMaxForwardVelocity());
-			setLaunchProjectileCommand(lastScan);
+			System.out.println("LAST SCAN FFFFFFFFFFFFFFFFFF:" + lastScan);
+			Angle f = new Angle(lastScan.getValueAsDegrees() - 105, "Degrees");
+			setAutopilot(f, getMaxForwardVelocity());
+			setLaunchProjectileCommand(f);
 ////			checking health
 //			if(getHealth() <= 0.2){
 //				setAutopilot(new Angle(f.getValueAsDegrees() + 180, "Degrees"), getMaxForwardVelocity());
@@ -82,7 +86,7 @@ public class Batman extends JRobot2011 {
 //				
 //			Round reset
 			i++;
-			if(i >= howManyRounds) {
+			if(i >= 1) {
 //				defines after how many rounds the scan procedure should be redone
 //				doing it more often costs more energy but is more precise
 				shouldFire = false;
@@ -101,7 +105,8 @@ public class Batman extends JRobot2011 {
 //			i = 0;
 			setScanAperture(getMaxScanAperture());
 			setScanDirection(a);
-			lastScan=a;
+			Angle saveA = new Angle(a.getValueAsDegrees(), "Degrees");
+			lastScan=new Angle(a.getValueAsDegrees(), "Degrees");
 			double save = a.getValueAsDegrees();
 			System.out.println("0" + getLastScan().scanDirection.getValueAsDegrees());
 			if(getLastScan().isTargetLocated()) {
@@ -302,12 +307,11 @@ public class Batman extends JRobot2011 {
 							}
 						}
 					}
-			
-			else {
-				a = new Angle(save + 90, "Degrees");
-				angleFound = false;
-			}
 				}
+			}
+			else {
+				a = new Angle(saveA.getValueAsDegrees() + 90, "Degrees");
+				angleFound = false;
 			}
 		}
 		
